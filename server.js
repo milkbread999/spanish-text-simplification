@@ -7,9 +7,10 @@ const OpenAI = require('openai');
 const app = express();
 const port = 3000;
 
+
 // OpenAI configuration
 const openai = new OpenAI({
-  apiKey: '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',  // Replace with your API key
+    apiKey: process.env.OPENAI_API_KEY
 });
 
 // Middleware setup
