@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const OpenAI = require('openai');
+require('dotenv').config();
+
 
 // Initialize the Express app and OpenAI API
 const app = express();
@@ -23,12 +25,12 @@ app.post('/simplify', async (req, res) => {
     const { text, level } = req.body;
     
     // Craft the prompt for ChatGPT
-    const prompt = `Please simplify the following Spanish text to a level suitable for a ${level} learner. Use appropriate vocabulary and sentence structure. Text: ${text}`;
+    const prompt = `Adapta este texto para estudiantes de español de nivel ${level}. Los estudiantes son adultos. Necesito simplificar el vocabulario sin simplificar la complejidad de las ideas. Incluye todas las ideas en tu versión simplificada. TEXTO: ${text}`;
     
     try {
         // Send the request to OpenAI
         const response = await openai.chat.completions.create({
-            model: 'gpt-3',
+            model: 'gpt-4',
             messages: [{ role: 'user', content: prompt }],
             max_tokens: 1000,
         });
