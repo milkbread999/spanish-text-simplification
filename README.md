@@ -8,3 +8,11 @@ A web application that simplifies Spanish text according to the user's proficien
 
 ## How to Access
 Go to https://milkbread999.github.io/spanish-text-simplification/public/, paste/type in your text, choose a level, and then press the simplify button to simplify.
+
+## Future Ideas for Features (priority order)
+* Continue trying to improve prompt accuracy to result in more helpful responses (consult with Yolanda again)
+* Add examples of each Spanish level into the prompt so that ChatGPT is better trained
+* Analyze Spanish text in uploaded images and .txt or .pdf files
+* Add in better descriptions of each Spanish level so users know which one to choose based on their ability
+* Estimate the Spanish level of the original text
+* Make user interface more visually appealing
