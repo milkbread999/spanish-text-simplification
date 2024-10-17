@@ -4,23 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spanish Text Simplifier</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .container { max-width: 600px; margin: auto; padding: 20px; }
-        textarea { width: 100%; height: 150px; }
-        select, button { margin-top: 10px; padding: 10px; }
-        .output { margin-top: 20px; padding: 10px; background: #f4f4f4; border-radius: 5px; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <h1>Spanish Text Simplifier</h1>
+
+        <!-- this is the prompt that the program passes into ChatGPT. when constructing it, I talked to Yolanda to understand how she simplified text using ChatGPT in her classes, and I altered the prompt to be more flexible with the website structure I have. -->
         <textarea id="text-input" placeholder="Enter Spanish text here..."></textarea>
         
+        <!-- this allows the user to select their level of simplification -->
         <label for="level">Select your Spanish level:</label>
         <select id="level">
-            <option value="A1 basic (the level of someone who is just starting to learn Spanish, only knows basic words and sentence structure)">A1 basic</option>
-            <option value="A1 advanced (the level of someone who has taken around a few months of spanish and can understand the basics, still slightly more advanced than a complete novice)">A1 advanced</option>
+            <option value="A1 basic">A1 basic</option>
+            <option value="A1 advanced">A1 advanced</option>
             <option value="A2 basic">A2 basic</option>
             <option value="A2 advanced">A2 advanced</option>
             <option value="B1">B1</option>
@@ -32,9 +32,12 @@
         <button onclick="simplifyText()">Simplify Text</button>
 
         <div id="output" class="output"></div>
+
+        <img src="Spanish-Levels.png">
     </div>
 
     <script>
+        // this function simplifies the text: it starts by getting text input from the text field, passing it to the simplify endpoint (the chatGPT function on server.js), and then receiving + printing the output.
         async function simplifyText() {
             const text = document.getElementById('text-input').value;
             const level = document.getElementById('level').value;
@@ -45,9 +48,10 @@
                 },
                 body: JSON.stringify({ text, level })
             });
+    }
             const result = await response.json();
             document.getElementById('output').innerText = result.simplified_text;
-        }
+        
     </script>
 </body>
 </html>
