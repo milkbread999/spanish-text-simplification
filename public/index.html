@@ -11,47 +11,63 @@
 </head>
 <body>
     <div class="container">
-        <h1>Spanish Text Simplifier</h1>
+        <h1>Simplificador de Texto Español</h1>
 
-        <!-- this is the prompt that the program passes into ChatGPT. when constructing it, I talked to Yolanda to understand how she simplified text using ChatGPT in her classes, and I altered the prompt to be more flexible with the website structure I have. -->
-        <textarea id="text-input" placeholder="Enter Spanish text here..."></textarea>
+        <!-- text input -->
+        <textarea id="text-input" placeholder="Entrar texto en Español aqui..."></textarea>
         
-        <!-- this allows the user to select their level of simplification -->
-        <label for="level">Select your Spanish level:</label>
+        <!-- dropdown for selecting simplification level -->
+        <label for="level">Seleccionar tu nivel de español:</label>
         <select id="level">
-            <option value="A1 basic">A1 basic</option>
-            <option value="A1 advanced">A1 advanced</option>
+            <option value="A1 basic">A1 basico</option>
+            <option value="A1 advanced">A1 avanzado</option>
             <option value="A2 basic">A2 basic</option>
-            <option value="A2 advanced">A2 advanced</option>
+            <option value="A2 advanced">A2 avanzado</option>
             <option value="B1">B1</option>
             <option value="B2">B2</option>
             <option value="C1">C1</option>
             <option value="C2">C2</option>
         </select>
         
-        <button onclick="simplifyText()">Simplify Text</button>
+        <!-- button calls simplify text functiont -->
+        <button onclick="simplifyText()">Simplificar</button>
 
-        <div id="output" class="output"></div>
+        <!-- output area for displaying the simplified text -->
+        <div id="output" class="output">
+            <p>Texto Final:</p>
+        </div>
 
-        <!-- <img src="Spanish-Levels.png"> -->
+        <img src="Spanish-Levels.png" alt="Spanish Levels">
     </div>
 
     <script>
-        // this function simplifies the text: it starts by getting text input from the text field, passing it to the simplify endpoint (the chatGPT function on server.js), and then receiving + printing the output.
+        // function to simplify the text
         async function simplifyText() {
             const text = document.getElementById('text-input').value;
             const level = document.getElementById('level').value;
-            const response = await fetch('/simplify', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ text, level })
-            });
-    }
-            const result = await response.json();
-            document.getElementById('output').innerText = result.simplified_text;
-        
+            
+            try {
+                const response = await fetch('/simplify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text, level })
+                });
+                
+                // error catch
+                if (!response.ok) {
+                    throw new Error('Failed to simplify text');
+                }
+
+                const result = await response.json();
+
+                // testing
+                document.getElementById('output').innerText = 'Final Text: \n \n' + result.simplified_text;
+            } catch (error) {
+                document.getElementById('output').innerText = 'Error: ' + error.message;
+            }
+        }
     </script>
 </body>
 </html>
