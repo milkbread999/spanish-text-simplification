@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const OpenAI = require('openai');
 require('dotenv').config();
+console.log('API Key:', process.env.OPENAI_API_KEY);
 
 
 // starts the express server and sets up a port
@@ -24,7 +25,7 @@ app.post('/simplify', async (req, res) => {
     const { text, level } = req.body;
     
     // chatgpt prompt
-    const prompt = `Adapta este texto para estudiantes de español de nivel ${level}. Los estudiantes son adultos. Necesito simplificar el vocabulario sin simplificar la complejidad de las ideas. Si este texto es menos complicada como ${level}, complicarlo para este nivel. Incluye todas las ideas en tu versión simplificada. Tambien, conserva los nombres propios. Por ejemplo, nombres como el "Supremo Tribunal" o "Los Estados Unidos" debería seguir siendo el mismo, en lugar de convertirse en "El máximo tribunal de justicia" o "la mas alta corte". TEXTO: ${text}`;
+    const prompt = `Escriba en qué nivel se encuentra el texto actual, de los niveles A1, A2, B1, B2, C1, y C2. Entonces, adapta este texto para estudiantes de español de nivel ${level}. Los estudiantes son adultos. Necesito simplificar el vocabulario sin simplificar la complejidad de las ideas. Si este texto es menos complicada como ${level}, complicarlo para este nivel. Incluye todas las ideas en tu versión simplificada. Tambien, conserva los nombres propios. Por ejemplo, nombres como el "Supremo Tribunal" o "Los Estados Unidos" debería seguir siendo el mismo, en lugar de convertirse en "El máximo tribunal de justicia" o "la mas alta corte". TEXTO: ${text}`;
     
     try {
         // sends request to openAI  gpt 4

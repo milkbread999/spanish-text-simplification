@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.0/dist/tesseract.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -31,6 +32,10 @@
         
         <!-- button calls simplify text functiont -->
         <button onclick="simplifyText()">Simplificar</button>
+
+        <!-- button to allow for image upload-->
+        <input type="file" id="image-input" accept="image/*">
+        <button onclick="extractTextFromImage()">Simplificar desde Imagen</button>
 
         <!-- output area for displaying the simplified text -->
         <div id="output" class="output">
@@ -67,6 +72,33 @@
             } catch (error) {
                 document.getElementById('output').innerText = 'Error: ' + error.message;
             }
+        }
+
+        async function extractTextFromImage() {
+            const imageInput = document.getElementById('image-input');
+            const level = document.getElementById('level').value;
+
+            if (imageInput.files.length === 0) {
+                alert('Por favor, sube una imagen.');
+                return;
+            }
+
+            const file = imageInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = async function () {
+                const imageDataUrl = reader.result;
+
+                // using Tesseract.js to extract text from the image
+                const { data: { text } } = await Tesseract.recognize(imageDataUrl, 'spa');
+
+                document.getElementById('text-input').value = text;
+
+                // send extracted text for simplification
+                simplifyText();
+            };
+
+            reader.readAsDataURL(file);
         }
     </script>
 </body>
